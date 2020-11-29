@@ -1,0 +1,17 @@
+-first methode :
+run command to launch docker mysql :
+docker container run --name userdb -p 3306:3306  -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=userdb -d mysql:8
+application.yml should with this config
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/userdb
+    username: root
+    password: root
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+server:
+  port: 9092
+swagger link : http://localhost:9092/swagger-ui.html#/
