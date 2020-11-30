@@ -15,3 +15,9 @@ spring:
 server:
   port: 9092
 swagger link : http://localhost:9092/swagger-ui.html#/
+
+-second methode :
+generate image spring boot java
+install with skip test to generate jar file
+docker image build -t user-jdbc .
+docker-compose up
