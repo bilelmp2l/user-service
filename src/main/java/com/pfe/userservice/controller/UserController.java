@@ -5,11 +5,10 @@ import com.pfe.userservice.models.User;
 import com.pfe.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     @Autowired
@@ -50,6 +49,25 @@ public class UserController {
             return userLogged;
         }
 
+    }
+
+    @PutMapping("/update/{id}")
+    public User updateUser(@RequestBody User user, @PathVariable Long id) {
+        User currentUser = userService.getUserById(id);
+
+        if (currentUser == null)
+            throw new NotExistUserException("user not exist");
+        else {
+            currentUser.setFirstName(user.getFirstName());
+            currentUser.setLastName(user.getLastName());
+            currentUser.setEmail(user.getEmail());
+            currentUser.setCountry(user.getCountry());
+            currentUser.setCity(user.getCity());
+            currentUser.setPhone(user.getPhone());
+            currentUser.setZipcode(user.getZipcode());
+            currentUser.setPassword(user.getPassword());
+            return userService.saveUser(currentUser);
+        }
     }
 
 }
