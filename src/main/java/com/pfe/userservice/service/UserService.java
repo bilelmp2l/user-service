@@ -1,5 +1,7 @@
 package com.pfe.userservice.service;
 
+import com.pfe.userservice.exceptions.PasswordEmptyException;
+import com.pfe.userservice.exceptions.UserAlreadyExistException;
 import com.pfe.userservice.models.User;
 import com.pfe.userservice.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,17 @@ public class UserService {
     private UserRepository userRepository;
 
     public User addUser(User user) {
+        List<User> users = userRepository.findAll();
+        if (user.getPassword().isEmpty()) {
+            throw new PasswordEmptyException("password is empty");
+        }
+        if (!users.isEmpty()) {
+            for (User userList : users) {
+                if (user.getEmail().equals(userList.getEmail())) {
+                    throw new UserAlreadyExistException("user already exist");
+                }
+            }
+        }
         return userRepository.save(user);
     }
 
